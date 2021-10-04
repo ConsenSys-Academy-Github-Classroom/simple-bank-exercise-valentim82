@@ -57,7 +57,7 @@ contract SimpleBank {
       // 1. A SPECIAL KEYWORD prevents function from editing state variables;
       //    allows function to run locally/off blockchain
       // 2. Get the balance of the sender of this transaction
-      return balances[owner];
+      return balances[msg.sender];
 	     
     }
 
@@ -77,7 +77,7 @@ contract SimpleBank {
       // 1. Add the appropriate keyword so that this function can receive ether
     
       // 2. Users should be enrolled before they can make deposits
-
+      require(enrolled[msg.sender]==true,  "User should be enrolled");
       // 3. Add the amount to the user's balance. Hint: the amount can be
       //    accessed from of the global variable `msg`
 
@@ -85,14 +85,14 @@ contract SimpleBank {
 
       // 5. return the balance of sndr of this transaction
 	   
-	   if(enrolled[msg.sender]){
-		  balances[owner] += msg.value;
+	   //if(enrolled[msg.sender]){
+		  balances[msg.sender] += msg.value;
 		  // 4. Emit the appropriate event associated with this function 
 	  	emit LogDepositMade(msg.sender, msg.value);
-		  return balances[owner];	  
-	  }
+		  return balances[msg.sender];	  
+	  //}
 	  
-	  return balances[owner];
+	  
     }
 
     /// @notice Withdraw ether from bank
